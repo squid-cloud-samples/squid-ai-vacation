@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "clean": "find . \\( -name \"node_modules\" -o -name \"dist\" -o -name \".turbo\" -o -name \".angular\" -o -name \"playwright-report\" -o -name \"test-results\" \\) -type d -exec rm -rf {} +",
+    "format": "prettier --write \"./**/src/**/*{ts,js,tsx,jsx,md,mdx}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
