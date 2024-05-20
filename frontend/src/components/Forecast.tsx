@@ -7,7 +7,8 @@ type PropTypes = {
 const Forecast = ({ forecast }: PropTypes) => {
   return (
     <div>
-        <div>{forecast.condition.text}</div>
+      <div>{JSON.stringify(forecast)}</div>
+      <div></div>
     </div>
   );
 }

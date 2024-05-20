@@ -1,10 +1,12 @@
 import { SquidService, secureDatabase, webhook, aiFunction, executable } from '@squidcloud/backend';
+import { AiGenerateImageOptions } from '@squidcloud/client';
 import { web } from 'webpack';
 import { PackingItem, ResponseBody, OneDayForecast } from '../../../common/types';
 
 export class ExampleService extends SquidService {
   
   collection = this.squid.collection('packing-list');
+  forecastCollection = this.squid.collection('forecast');
 
   @secureDatabase('all', 'built_in_db')
   allowAccessToBuiltInDb(): boolean {
@@ -25,14 +27,12 @@ export class ExampleService extends SquidService {
         const day = date.getDate().toString().padStart(2, '0');
         const dateWeather = `${year}-${month}-${day}`;
         const result = await this.getFutureForecast(dateWeather, zipcode);
-        await this.generatePackingList(dateWeather, result);
+        await this.squid.collection('forecast').doc({date, location: zipcode}).insert(result);
+        this.generatePackingList(date, result);
     }
-
-
   }
 
-  private async generatePackingList(date: string, dayForecast: OneDayForecast) {
-    console.log(date)
+  private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
     const assistant = this.squid.ai().assistant();
     const assistantId = await assistant.createAssistant(
       'packingListGenerator',
@@ -71,7 +71,7 @@ export class ExampleService extends SquidService {
       {
         name: 'date',
         description: 'The date of the weather as provided',
-        type: 'string',
+        type: 'date',
         required: true,
       },
     ],
@@ -79,7 +79,7 @@ export class ExampleService extends SquidService {
   async createPackingListFromAssistant(params: {
     item: string;
     content: string;
-    date: string;
+    date: Date;
   }): Promise<void> {
     const { item, content, date } = params;   
     await this.createPackingItemInternal(item, content, date);
@@ -88,8 +88,13 @@ export class ExampleService extends SquidService {
   private async createPackingItemInternal(
     item: string,
     content: string,
-    date: string,
+    date: Date,
   ): Promise<string> {
+    const existingItem = await this.collection.query().like('item' ,item, false).snapshot();
+    if (existingItem.length > 0) {
+      console.log('item exists', item);
+      return 'item is already on list';
+    }
     const id = crypto.randomUUID();
 
     await this.collection.doc({ id }).insert({
@@ -99,8 +104,23 @@ export class ExampleService extends SquidService {
       done: false,
       date
     });
+    const imageUrl = await this.generateItemImage(item);
+    await this.collection.doc({id}).update({imageUrl});
 
     return id;
+  }
+
+  private async generateItemImage(item: string): Promise<string> {
+    const imageGenerator = this.squid.ai().image();
+    const options: AiGenerateImageOptions = {
+      modelName: 'dall-e-3',
+      quality: 'standard',
+      size: '1024x1024',
+      numberOfImagesToGenerate: 1,
+    };
+
+    const imageUrl = await imageGenerator.generate(item, options);
+    return imageUrl;
   }
 
   async getFutureForecast(date: string, zip: number) {

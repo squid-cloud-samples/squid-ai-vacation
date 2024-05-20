@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -26,30 +26,6 @@ const SelectLocation: React.FC<Props> = ({ onCreate }) => {
       alert('Please complete all fields.');
     }
   };
-
-  const fetchLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log(
-            'Latitude: ',
-            position.coords.latitude,
-            'Longitude: ',
-            position.coords.longitude,
-          );
-        },
-        (error) => {
-          console.error('Error Code = ' + error.code + ' - ' + error.message);
-        },
-      );
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  };
-
-  useEffect(() => {
-    fetchLocation();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit}>

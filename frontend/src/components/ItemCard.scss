@@ -1,6 +1,6 @@
 @import "@squidcloud/ui/styles/colors";
 
-.todo-card {
+.item-card {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -17,6 +17,11 @@
     gap: 4px;
 
     text-align: left;
+  }
+
+  &__image {
+    width: 60px;
+    height: 60px;
   }
 
   &__created,

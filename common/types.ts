@@ -1,8 +1,9 @@
 export type PackingItem = {
     id: string;
     item: string;
+    imageUrl?: string;
     content: string;
-    date: string; // for now until Date works on ai functions
+    date: Date; // for now until Date works on ai functions
     done: boolean;
 }
 
