@@ -1,6 +1,8 @@
-# Getting started with Squid Cloud: A basic starter project
+# Squid AI Vacation Packing Planner
 
-This template provides a minimal setup for a [Squid Cloud](https://squid.cloud)-powered application based on the [Vite](https://vitejs.dev/) counter sample application.
+This application integrates with [WeatherAPI.com](https://www.weatherapi.com/) to get the forecast for a given location and date, and then passes the information to a [Squid AI Assistant](https://docs.squid.cloud/docs/ai/squid-ai-assistant) that uses an [AI function](https://docs.squid.cloud/docs/development-tools/backend/ai-functions) to write suggested packing items to Squid's [built-in database](https://docs.squid.cloud/docs/integrations/database/built-in), showcasing how simple it is to integrate multiple services with AI functionality using Squid.
+
+The frontend is a React application that uses [Vite](https://vitejs.dev/).
 
 ## Prerequisites
 
@@ -44,6 +46,12 @@ npm run setup-env
 ```
 
 This command prepares your `.env` file for the Vite environment by generating a `frontend/.env.local` file.
+
+### Integrating with WeatherAPI.com
+
+To get weather forecasts, this application uses an API available from WeatherAPI.com. The API offers a free tier so you can use it in this sample at no charge.
+
+
 
 ## Running the application
 

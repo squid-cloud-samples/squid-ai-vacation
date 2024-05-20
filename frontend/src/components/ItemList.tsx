@@ -3,19 +3,19 @@ import "./ItemList.scss";
 import { PackingItem } from "../../../common/types";
 
 type PropTypes = {
-  todos: Array<PackingItem>;
+  items: Array<PackingItem>;
   onDelete: (id: string) => void;
   onToggle: (id: string, done: boolean) => void;
 };
 
-const ItemList = ({ todos, onDelete, onToggle }: PropTypes) => {
+const ItemList = ({ items, onDelete, onToggle }: PropTypes) => {
   return (
-    <div className="todo-list">
-      <div className="todo-list__column">
-        {todos.map((todo) => (
+    <div className="item-list">
+      <div className="item-list__column">
+        {items.map((item) => (
           <ItemCard
-            key={todo.id}
-            todo={todo}
+            key={item.id}
+            packingItem={item}
             onDelete={onDelete}
             onToggle={onToggle}
           />

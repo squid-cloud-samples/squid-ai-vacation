@@ -1,17 +1,16 @@
-import dayjs from "dayjs";
 import "./ItemCard.scss";
 import { PackingItem } from "../../../common/types";
 
 import TrashIcon from "@squidcloud/ui/icons/trash.svg";
 
 type PropTypes = {
-  todo: PackingItem;
+  packingItem: PackingItem;
   onDelete: (id: string) => void;
   onToggle: (id: string, done: boolean) => void;
 };
 
-const ItemCard = ({ todo, onDelete, onToggle }: PropTypes) => {
-  const { id, item, content, imageUrl, date, done } = todo;
+const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
+  const { id, item, content, imageUrl, date, done, product_description, product_page_url, product_photo, product_title } = packingItem;
 
   return (
     <div
@@ -22,7 +21,16 @@ const ItemCard = ({ todo, onDelete, onToggle }: PropTypes) => {
         <span>{content}</span>
         <span>{date.toDateString()}</span>
       </div>
-      {imageUrl && <img src={imageUrl} className="item-card__image"/>}
+      {product_photo && (
+        <a href={product_page_url} target="_blank" rel="noopener noreferrer">
+          <img
+            alt={'item image'}
+            title={'Click to view'}
+            src={product_photo}
+            className="item-card__image"
+          />
+        </a>
+      )}
       <div className="item-card__buttons">
         <input
           type="checkbox"

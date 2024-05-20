@@ -5,6 +5,11 @@ export type PackingItem = {
     content: string;
     date: Date; // for now until Date works on ai functions
     done: boolean;
+    // attributes from Google Shopping
+    product_title?: string;
+    product_description?: string;
+    product_page_url?: string;
+    product_photo?: string;
 }
 
 export type OneDayForecast = {
@@ -91,4 +96,42 @@ export type ResponseBody = {
     localtime_epoch: number;
     localtime: string; // ex '2024-05-13 13:27';
   };
+}
+
+export type ShoppingItem = {
+  product_id: string;
+  product_title: string;
+  product_description: string;
+  product_photos: string[];
+  product_attributes: ProductAttributes;
+  product_rating: number; // ex 4.6
+  product_page_url: string;
+  product_offers_page_url: string;
+  product_specs_page_url: string;
+  product_reviews_page_url: string;
+  product_num_reviews: number;
+  product_num_offers: string; // ex 10+
+  typical_price_range: string[]; // ex [ "$70.00", "$89.00" ]
+  offer:
+}
+
+export type ProductAttributes = {
+  Department: string;
+  Size: string;
+  Material: string;
+  Features: string;
+  'Closure Style': string;
+}
+
+export type ProductOffer = {
+  store_name: string;
+  store_rating: number; // ex 4.5
+  offer_page_url: string;
+  store_review_count: number;
+  store_reviews_page_url: string;
+  price: string; // ex "$70.00"
+  tax: string; // ex "+$8.00 est. tax"
+  on_sale: boolean;
+  original_price: string | null;
+  product_condition: string; // ex "NEW"
 }

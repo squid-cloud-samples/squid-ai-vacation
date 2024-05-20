@@ -1,7 +1,12 @@
-import { SquidService, secureDatabase, webhook, aiFunction, executable } from '@squidcloud/backend';
+import { SquidService, secureDatabase, webhook, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
 import { AiGenerateImageOptions } from '@squidcloud/client';
 import { web } from 'webpack';
-import { PackingItem, ResponseBody, OneDayForecast } from '../../../common/types';
+import { PackingItem, ResponseBody, OneDayForecast, ShoppingItem } from '../../../common/types';
+import { ReplaySubject } from 'rxjs';
+
+type ShoppingItemResponse = {
+  data: ShoppingItem;
+}
 
 export class ExampleService extends SquidService {
   
@@ -15,7 +20,6 @@ export class ExampleService extends SquidService {
 
   @executable()
   async createItemsWithAI(zipcode: number, startDate: Date, endDate: Date){
-    console.log(zipcode)
 
     for (
       let date = new Date(startDate);
@@ -36,7 +40,7 @@ export class ExampleService extends SquidService {
     const assistant = this.squid.ai().assistant();
     const assistantId = await assistant.createAssistant(
       'packingListGenerator',
-      'Your are designed to create a list of items to pack for a trip based on the provided weather forecast and date, where the date is a string. You should create anywhere between 3-5 items.',
+      'Your are designed to create a list of items to pack for a trip based on the provided weather forecast and date, where the date is a string. You should create 3-5 items.',
       ['createPackingListFromAssistant'],
     );
     const threadId = await assistant.createThread(assistantId);
@@ -46,7 +50,6 @@ export class ExampleService extends SquidService {
       threadId,
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
     );
-    console.log(queryResult);
 
     await assistant.deleteThread(threadId);
     await assistant.deleteAssistant(assistantId);
@@ -105,11 +108,48 @@ export class ExampleService extends SquidService {
       date
     });
     const imageUrl = await this.generateItemImage(item);
-    await this.collection.doc({id}).update({imageUrl});
-
     return id;
   }
 
+  // Trigger item search when 'packing-list' collection updates
+  @trigger('packingUpdate', 'packing-list')
+  async handlePackingUpdate(request: TriggerRequest): Promise<void> {
+    // Only perform item search on first insert
+    if (request.mutationType !== 'insert') {
+      return;
+    }
+    const packingItemData = request.docAfter;
+    // avoid requests to the API more than once
+    if (packingItemData.item !== undefined && packingItemData.product_title === undefined) {
+      await this.searchForItem(packingItemData.id, packingItemData.item);
+    }
+    return;
+  }
+
+  private async searchForItem(id: string, item: string): Promise<void> {
+    const response = await this.squid.api()
+    .request<ShoppingItemResponse>('product-search', 
+    'search', 
+    {}, 
+    { 
+      queryParams: {
+        'country': 'us',
+        'language': 'en',
+        'limit': 1,
+        'q': item,
+    }
+  });
+  const data = response.body.data[0];
+  const searchData = {
+    product_title: data.product_title,
+    product_description: data.product_description,
+    product_photo: data.product_photos[0],
+    product_page_url: data.product_page_url,
+  };
+  await this.collection.doc({id}).update(searchData);
+}
+
+  // probably not using this anymore since we're pulling the image from google shopping
   private async generateItemImage(item: string): Promise<string> {
     const imageGenerator = this.squid.ai().image();
     const options: AiGenerateImageOptions = {
@@ -119,9 +159,9 @@ export class ExampleService extends SquidService {
       numberOfImagesToGenerate: 1,
     };
 
-    const imageUrl = await imageGenerator.generate(item, options);
-    return imageUrl;
-  }
+      const imageUrl = await imageGenerator.generate(item, options);
+      return imageUrl;
+    }
 
   async getFutureForecast(date: string, zip: number) {
     const result = await this.squid.api().request<ResponseBody>(
@@ -136,7 +176,6 @@ export class ExampleService extends SquidService {
         },
       },
     );
-    console.log(result.body.forecast.forecastday[0].day);
     return result.body.forecast.forecastday[0].day;
   }
 }
