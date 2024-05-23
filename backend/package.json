@@ -17,15 +17,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@squidcloud/backend": "^1.0.228",
-    "@squidcloud/client": "^1.0.228",
+    "@squidcloud/backend": "^1.0.230",
+    "@squidcloud/client": "^1.0.230",
     "reflect-metadata": "^0.1.13",
     "rxjs": ">=7.5.7 <8.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
     "@jest/types": "^29.4.1",
-    "@squidcloud/local-backend": "^1.0.228",
+    "@squidcloud/local-backend": "^1.0.230",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "copy-webpack-plugin": "^11.0.0",
