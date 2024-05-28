@@ -1,6 +1,6 @@
 import "./ItemCard.scss";
 import { PackingItem } from "../../../common/types";
-
+import '@squidcloud/ui/styles/index.css';
 import TrashIcon from "@squidcloud/ui/icons/trash.svg";
 
 type PropTypes = {
@@ -12,15 +12,19 @@ type PropTypes = {
 const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
   const { id, item, content, imageUrl, date, done, product_description, product_page_url, product_photo, product_title } = packingItem;
 
+    const handleClick = () => {
+      window.open(product_page_url, '_blank', 'noopener,noreferrer');
+    };
+
   return (
     <div
-      className={`sq-card sq-card--elevation2 item-card ${done ? 'done' : ''}`}
+      className={`sq-card item-card ${done ? 'done' : ''}`}
     >
-      <div className="item-card__content">
-        <h4>{item}</h4>
-        <span>{content}</span>
-        <span>{date.toDateString()}</span>
-      </div>
+      <input
+        type="checkbox"
+        checked={done}
+        onChange={() => onToggle(id, !done)}
+      />
       {product_photo && (
         <a href={product_page_url} target="_blank" rel="noopener noreferrer">
           <img
@@ -31,13 +35,15 @@ const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
           />
         </a>
       )}
+      <div className="item-card__content">
+        <h4>{item}</h4>
+        <span>{content}</span>
+        <span>{date.toDateString()}</span>
+      </div>
+
       <div className="item-card__buttons">
-        <input
-          type="checkbox"
-          checked={done}
-          onChange={() => onToggle(id, !done)}
-        />
-        <button onClick={() => onDelete(id)}>
+        <button onClick={handleClick} className="sq-btn sq-btn--secondary" style={{width: "120px"}}>Buy Item</button>
+        <button onClick={() => onDelete(id)} className="trash-icon">
           <img src={TrashIcon} width={32} className="sq-icon sq-icon--gray" />
         </button>
       </div>

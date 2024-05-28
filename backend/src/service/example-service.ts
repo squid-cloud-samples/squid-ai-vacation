@@ -36,14 +36,9 @@ export class ExampleService extends SquidService {
   private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
     const chatbot = this.squid.ai().chatbot('packing-planner');
     const profile = chatbot.profile('planner')
-    // await profile.insert({
-    //   modelName: 'gpt-4o',
-    //   isPublic: false,
-    // });
     const instructions = chatbot.profile('planner').instruction('generate-packing-list');
     const instructionData: InstructionData = { 
       instruction: 'You are designed to create a list of items to pack for a trip based on the provided weather forecast and date, where the date is a string. You should create 3-5 items.'}
-   // await instructions.insert(instructionData);
     const queryResult = await profile.ask(
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
       {functions: ['createPackingListFromAssistant']}
