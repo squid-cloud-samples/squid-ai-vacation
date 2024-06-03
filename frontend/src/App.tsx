@@ -42,13 +42,22 @@ function App() {
   };
 
   return (
-    <>
-      <h1>Vacation Planner</h1>
-      <h3>Enter your zip code and dates of travel to automatically generate a list of items based on the predicted weather forecast</h3>
-      <SelectLocation onCreate={handleCreateWithAI} />
-      {/* {forecastResult && <Forecast forecast={forecastResult.data[0]} /> } */}
-      <ItemList items={data} onDelete={handleDelete} onToggle={handleToggle} />
-    </>
+    <div className="background-container">
+      <div className="content">
+        <h1 style={{ color: 'white' }}>Vacation Planner</h1>
+        <h3 style={{ color: 'white' }}>
+          Enter your zip code and dates of travel to automatically generate a
+          list of items based on the predicted weather forecast
+        </h3>
+        <SelectLocation onCreate={handleCreateWithAI} />
+        {/* {forecastResult && <Forecast forecast={forecastResult.data[0]} /> } */}
+        <ItemList
+          items={data}
+          onDelete={handleDelete}
+          onToggle={handleToggle}
+        />
+      </div>
+    </div>
   );
 }
 

@@ -6,4 +6,17 @@
 }
 
 
+.background-container {
+  position: relative;
+  width: 100%;
+  background-image: url('/cover-2.jpeg');
+  background-size: contain; /* Ensures the image covers the container */
+  background-position: top; /* Position the image at the top */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+}
 
+.content {
+  position: relative; /* Ensures content is positioned relative to the container */
+  z-index: 1; /* Ensures content is above the background image */
+  padding: 20px; /* Add padding as needed */
+}

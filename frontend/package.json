@@ -11,9 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.18",
     "@squidcloud/react": "^1.0.51",
     "@squidcloud/samples": "^1.0.6",
     "@squidcloud/ui": "^1.0.5",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "react": "^18.2.0",
     "react-datepicker": "^6.9.0",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
+    "@types/react-date-range": "^1.4.9",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18.2.21",
     "@types/react-modal": "^3.16.3",

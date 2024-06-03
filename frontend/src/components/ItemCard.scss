@@ -9,6 +9,11 @@
     opacity: 0.5;
   }
 
+  .check-icon {
+    width: 20px;
+    height: 20px;
+  }
+
   &__content {
     flex-grow: 1;
     display: flex;
@@ -50,8 +55,8 @@
     }
 
     input {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
   }
 }

@@ -14,7 +14,7 @@ const ItemList = ({ items, onDelete, onToggle }: PropTypes) => {
   return (
     <div className="item-list">
       <div className="item-list__column">
-        <div className="header">Items to pack</div>
+        <h3 className="header">Items to pack</h3>
         <div>
           {items
             .filter((item) => !item.done)
@@ -27,7 +27,7 @@ const ItemList = ({ items, onDelete, onToggle }: PropTypes) => {
               />
             ))}
         </div>
-        <div className="header">Items packed</div>
+        <h3 className="header">Items packed</h3>
         <div>
           {items
             .filter((item) => item.done)

@@ -21,6 +21,7 @@ const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
       className={`sq-card item-card ${done ? 'done' : ''}`}
     >
       <input
+        className='check-icon'
         type="checkbox"
         checked={done}
         onChange={() => onToggle(id, !done)}

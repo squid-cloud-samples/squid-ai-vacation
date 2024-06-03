@@ -373,13 +373,25 @@ curl -X PUT https://console.YOUR_REGION.squid.cloud/openapi/iac/applications/YOU
 
 3. In the Squid Cloud Console, navigate to your **product-search** integration schema. 
 
-2. Click on the **search** endpoing.
+2. Click on the **search** endpoint.
 
 3. Click the **+** in the **Injections** area to add a new injection.
 
 4. The **Field name** is **X-RapidAPI-Key** and the **Location** is **header**. Toggle **Secret** on, and then create a new secret. For the secret value, paste in your RapidAPI API key. Ensure that the secret is saved and selected, and then save the new injection.
 
 ## Adding the chatbot integration
+
+1. In the Squid Cloud Console, navigate to your integrations and add a new AI Chatbot integration.
+
+2. Use **packing-planner** as the integration ID, and then click **Add integration**.
+
+3. Under **Profiles**, click the **+** to add a profile. Choose **GPT-4o** as the model.
+
+4. Add the following instructions to the profile:
+
+```
+You are designed to create a list of items to pack for a trip based on the provided weather forecast and date, where the date is a string. You should create 3-5 items.
+```
 
 ## Running the application
 
