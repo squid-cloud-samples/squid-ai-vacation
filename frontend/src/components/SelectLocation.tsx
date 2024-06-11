@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PlaceIcon from '@mui/icons-material/Place';
 import './SelectLocation.scss';
-import DateRangeIcon from '@mui/icons-material/DateRange';
 
 interface Props {
   onCreate: (zipcode: string, startDate: Date, endDate: Date) => void;
