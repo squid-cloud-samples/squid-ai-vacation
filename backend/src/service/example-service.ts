@@ -9,7 +9,6 @@ type ShoppingItemResponse = {
 export class ExampleService extends SquidService {
   
   collection = this.squid.collection('packing-list');
-  forecastCollection = this.squid.collection('forecast');
 
   @secureDatabase('all', 'built_in_db')
   allowAccessToBuiltInDb(): boolean {
@@ -35,10 +34,7 @@ export class ExampleService extends SquidService {
 
   private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
     const chatbot = this.squid.ai().chatbot('packing-planner');
-    const profile = chatbot.profile('planner')
-    const instructions = chatbot.profile('planner').instruction('generate-packing-list');
-    const instructionData: InstructionData = { 
-      instruction: 'You are designed to create a list of items to pack for a trip based on the provided weather forecast and date, where the date is a string. You should create 3-5 items.'}
+    const profile = chatbot.profile('planner');
     const queryResult = await profile.ask(
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
       {functions: ['createPackingListFromAssistant']}
@@ -82,11 +78,10 @@ export class ExampleService extends SquidService {
     item: string,
     content: string,
     date: Date,
-  ): Promise<string> {
+  ): Promise<void> {
     const existingItem = await this.collection.query().like('item' ,item, false).snapshot();
     if (existingItem.length > 0) {
-      console.log('item exists', item);
-      return 'item is already on list';
+      return;
     }
     const id = crypto.randomUUID();
 
@@ -97,8 +92,7 @@ export class ExampleService extends SquidService {
       done: false,
       date
     });
-    const imageUrl = await this.generateItemImage(item);
-    return id;
+    return;
   }
 
   // Trigger item search when 'packing-list' collection updates
@@ -136,22 +130,8 @@ export class ExampleService extends SquidService {
     product_photo: data.product_photos[0],
     product_page_url: data.product_page_url,
   };
-  await this.collection.doc({id}).update(searchData);
-}
-
-  // probably not using this anymore since we're pulling the image from google shopping
-  private async generateItemImage(item: string): Promise<string> {
-    const imageGenerator = this.squid.ai().image();
-    const options: AiGenerateImageOptions = {
-      modelName: 'dall-e-3',
-      quality: 'standard',
-      size: '1024x1024',
-      numberOfImagesToGenerate: 1,
-    };
-
-      const imageUrl = await imageGenerator.generate(item, options);
-      return imageUrl;
-    }
+    await this.collection.doc({id}).update(searchData);
+  } 
 
   async getFutureForecast(date: string, zip: number) {
     const result = await this.squid.api().request<ResponseBody>(
