@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "setup-env": "samples-setup-env --prefix VITE_",
+    "setup-env": "samples setup-env --prefix VITE_",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.18",
     "@squidcloud/react": "^1.0.51",
-    "@squidcloud/samples": "^1.0.6",
+    "@squidcloud/samples": "^1.0.11",
     "@squidcloud/ui": "^1.0.5",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
