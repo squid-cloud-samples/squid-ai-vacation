@@ -112,7 +112,6 @@ export type ShoppingItem = {
   product_num_reviews: number;
   product_num_offers: string; // ex 10+
   typical_price_range: string[]; // ex [ "$70.00", "$89.00" ]
-  offer:
 }
 
 export type ProductAttributes = {
