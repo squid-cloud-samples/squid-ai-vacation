@@ -1,5 +1,5 @@
 import { SquidService, secureDatabase, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
-import { ResponseBody, OneDayForecast, ShoppingItem } from '../../../common/types';
+import { ResponseBody, OneDayForecast, ShoppingItem } from './types';
 
 type ShoppingItemResponse = {
   data: ShoppingItem;

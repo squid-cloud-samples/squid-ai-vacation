@@ -1,5 +1,5 @@
 import "./ItemCard.scss";
-import { PackingItem } from "../../../common/types";
+import { PackingItem } from './types';
 import '@squidcloud/ui/styles/index.css';
 import TrashIcon from "@squidcloud/ui/icons/trash.svg";
 
