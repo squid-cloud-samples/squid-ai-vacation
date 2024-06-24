@@ -9,7 +9,7 @@ type PropTypes = {
   onDelete: (id: string) => void;
   onToggle: (id: string, done: boolean) => void;
 };
-
+ 
 const ItemList = ({ items, onDelete, onToggle }: PropTypes) => {
   return (
     <div className="item-list">
