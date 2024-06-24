@@ -25,7 +25,7 @@ if (squidDeveloperId) {
   console.log(squidDeveloperId);
   squidOptions.squidDeveloperId = squidDeveloperId;
 }
-
+ 
 ReactDOM.createRoot(rootElement).render(
   <SquidContextProvider options={squidOptions}>
     <App />
