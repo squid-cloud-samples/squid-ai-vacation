@@ -1,6 +1,6 @@
 import ItemCard from "./ItemCard";
 import "./ItemList.scss";
-import { PackingItem } from "../../../common/types";
+import { PackingItem } from './types';
 import '@squidcloud/ui/styles/index.css';
 
 
