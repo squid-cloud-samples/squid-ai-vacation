@@ -22,6 +22,7 @@ const squidDeveloperId = import.meta.env.VITE_SQUID_DEVELOPER_ID;
 
 // Only add squidDeveloperId during local development
 if (squidDeveloperId) {
+  console.log(squidDeveloperId);
   squidOptions.squidDeveloperId = squidDeveloperId;
 }
 
