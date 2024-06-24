@@ -1,6 +1,5 @@
 import { SquidService, secureDatabase, webhook, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
-import { AiGenerateImageOptions, InstructionData } from '@squidcloud/client';
-import { PackingItem, ResponseBody, OneDayForecast, ShoppingItem } from '../../../common/types';
+import { ResponseBody, OneDayForecast, ShoppingItem } from '../../../common/types';
 
 type ShoppingItemResponse = {
   data: ShoppingItem;
