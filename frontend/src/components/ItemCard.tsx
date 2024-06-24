@@ -10,7 +10,7 @@ type PropTypes = {
 };
 
 const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
-  const { id, item, content, imageUrl, date, done, product_description, product_page_url, product_photo, product_title } = packingItem;
+  const { id, item, content, date, done, product_page_url, product_photo } = packingItem;
 
     const handleClick = () => {
       window.open(product_page_url, '_blank', 'noopener,noreferrer');
