@@ -1,4 +1,4 @@
-import { SquidService, secureDatabase, webhook, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
+import { SquidService, secureDatabase, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
 import { ResponseBody, OneDayForecast, ShoppingItem } from '../../../common/types';
 
 type ShoppingItemResponse = {
