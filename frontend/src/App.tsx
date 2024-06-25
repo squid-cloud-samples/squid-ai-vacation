@@ -1,7 +1,7 @@
 import './App.css';
 import '@squidcloud/ui/styles/index.css';
 import ItemList from './components/ItemList';
-import { PackingItem } from '../../common/types';
+import { PackingItem } from './components/types';
 import { useCollection, useQuery, useSquid } from '@squidcloud/react';
 import SelectLocation from './components/SelectLocation';
 
