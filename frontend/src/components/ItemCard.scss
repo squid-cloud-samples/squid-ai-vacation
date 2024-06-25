@@ -4,7 +4,7 @@
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
-
+  padding: 20px;
   &.done {
     opacity: 0.5;
   }
@@ -42,7 +42,7 @@
     gap: 8px;
 
     button {
-      padding: 0;
+      padding: 10;
       display: flex;
       justify-content: center;
       align-items: center;
