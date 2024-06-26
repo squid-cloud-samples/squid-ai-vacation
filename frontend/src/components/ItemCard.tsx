@@ -45,7 +45,7 @@ const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
       <div className="item-card__buttons">
         <button onClick={handleClick} className="sq-btn sq-btn--secondary" style={{width: "120px"}}>Buy Item</button>
         <button onClick={() => onDelete(id)} className="trash-icon">
-          <img src={TrashIcon} width={32} className="sq-icon sq-icon--gray" />
+          <img src={TrashIcon} width={20} className="sq-icon sq-icon--gray" />
         </button>
       </div>
     </div>
