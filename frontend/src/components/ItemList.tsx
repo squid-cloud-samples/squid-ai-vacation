@@ -1,8 +1,7 @@
-import ItemCard from "./ItemCard";
-import "./ItemList.scss";
+import ItemCard from './ItemCard';
+import './ItemList.scss';
 import { PackingItem } from './types';
 import '@squidcloud/ui/styles/index.css';
-
 
 type PropTypes = {
   items: Array<PackingItem>;
@@ -15,17 +14,17 @@ const ItemList = ({ items, onDelete, onToggle }: PropTypes) => {
     <div className="item-list">
       <div className="item-list__column">
         <div className="item-list__column__header">Items to pack</div>
-        <div >
+        <div>
           {items
             .filter((item) => !item.done)
             .map((item) => (
               <div className="item-list__column__item">
-              <ItemCard
-                key={item.id}
-                packingItem={item}
-                onDelete={onDelete}
-                onToggle={onToggle}
-              />
+                <ItemCard
+                  key={item.id}
+                  packingItem={item}
+                  onDelete={onDelete}
+                  onToggle={onToggle}
+                />
               </div>
             ))}
         </div>

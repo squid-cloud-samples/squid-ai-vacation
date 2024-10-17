@@ -16,9 +16,8 @@ body {
   align-items: start;
   min-width: 320px;
   min-height: 100vh;
-}s
-
-h1 {
+}
+s h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }

@@ -20,7 +20,6 @@ function App() {
 
   const handleDelete = async (id: string) => {
     await collection.doc({ id }).delete();
-
   };
 
   const handleCreateWithAI = async (
@@ -42,14 +41,19 @@ function App() {
     <div>
       <div className="background-container">
         <div className="background-container__content">
-          <div className='background-container__content__title'>Vacation Planner</div>
+          <div className="background-container__content__title">
+            Vacation Planner
+          </div>
           <div className="background-container__content__desc">
             Enter your zip code and dates of travel to automatically generate a
           </div>
           <div className="background-container__content__desc">
             list of items based on the predicted weather forecast
           </div>
-          <SelectLocation btnDisabled={btnDisabled} onCreate={handleCreateWithAI} />
+          <SelectLocation
+            btnDisabled={btnDisabled}
+            onCreate={handleCreateWithAI}
+          />
         </div>
       </div>
       <div className="content">
