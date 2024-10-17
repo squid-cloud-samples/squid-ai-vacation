@@ -6,9 +6,10 @@ import './SelectLocation.scss';
 
 interface Props {
   onCreate: (zipcode: string, startDate: Date, endDate: Date) => void;
+  btnDisabled: boolean;
 }
 
-const SelectLocation: React.FC<Props> = ({ onCreate }) => {
+const SelectLocation: React.FC<Props> = ({ onCreate, btnDisabled }) => {
   const [zipcode, setZipcode] = useState<string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -37,20 +38,20 @@ const SelectLocation: React.FC<Props> = ({ onCreate }) => {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <div className="input-container">
-        <PlaceIcon className="input-icon" />
+      <span className="form-container__input">
+        <PlaceIcon className="form-container__input__icon" />
         <input
-          className="input-field"
+          className="form-container__input__field"
           type="text"
           id="zipcode"
           value={zipcode}
           onChange={handleZipcodeChange}
           placeholder="Enter or obtain your ZIP code"
         />
-      </div>
-      <div className="input-container">
+      </span>
+      <span className="form-container__input">
         <DatePicker
-          className="input-field"
+          className="form-container__input__field"
           dateFormat="MMMM dd"
           selected={startDate}
           onChange={onChange}
@@ -94,8 +95,8 @@ const SelectLocation: React.FC<Props> = ({ onCreate }) => {
             </svg>
           }
         />
-      </div>
-      <button className="sq-btn" type="submit">
+      </span>
+      <button className="sq-btn" type="submit" disabled={btnDisabled}>
         Submit
       </button>
     </form>

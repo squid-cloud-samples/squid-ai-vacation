@@ -1,14 +1,19 @@
-import { SquidService, secureDatabase, aiFunction, executable, trigger, TriggerRequest } from '@squidcloud/backend';
+import {
+  SquidService,
+  secureDatabase,
+  aiFunction,
+  executable,
+  trigger,
+  TriggerRequest,
+} from '@squidcloud/backend';
 import { ResponseBody, OneDayForecast, ShoppingItem } from './types';
-import crypto  from 'crypto';
-
+import crypto from 'crypto';
 
 type ShoppingItemResponse = {
   data: ShoppingItem;
-}
+};
 
 export class ExampleService extends SquidService {
-  
   collection = this.squid.collection('packing-list');
 
   @secureDatabase('all', 'built_in_db')
@@ -17,28 +22,31 @@ export class ExampleService extends SquidService {
   }
 
   @executable()
-  async createItemsWithAI(zipcode: number, startDate: Date, endDate: Date){
+  async createItemsWithAI(zipcode: number, startDate: Date, endDate: Date) {
     for (
       let date = new Date(startDate);
       date <= endDate;
       date.setDate(date.getDate() + 1)
     ) {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        const dateWeather = `${year}-${month}-${day}`;
-        const result = await this.getFutureForecast(dateWeather, zipcode);
-        await this.squid.collection('forecast').doc({date, location: zipcode}).insert(result);
-        this.generatePackingList(date, result);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const dateWeather = `${year}-${month}-${day}`;
+      const result = await this.getFutureForecast(dateWeather, zipcode);
+      await this.squid
+        .collection('forecast')
+        .doc({ date, location: zipcode })
+        .insert(result);
+      await this.generatePackingList(date, result);
+      return 'done';
     }
   }
 
   private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
-    const chatbot = this.squid.ai().chatbot('packing-planner');
-    const profile = chatbot.profile('planner');
-    const queryResult = await profile.ask(
+    const packingAgent = this.squid.ai().agent('planner');
+    const queryResult = await packingAgent.ask(
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
-      {functions: ['createPackingListFromAssistant']}
+      { functions: ['createPackingListFromAssistant'] },
     );
   }
 
@@ -71,7 +79,7 @@ export class ExampleService extends SquidService {
     content: string;
     date: Date;
   }): Promise<void> {
-    const { item, content, date } = params;   
+    const { item, content, date } = params;
     await this.createPackingItemInternal(item, content, date);
   }
 
@@ -80,7 +88,10 @@ export class ExampleService extends SquidService {
     content: string,
     date: Date,
   ): Promise<void> {
-    const existingItem = await this.collection.query().like('item' ,item, false).snapshot();
+    const existingItem = await this.collection
+      .query()
+      .like('item', item, false)
+      .snapshot();
     if (existingItem.length > 0) {
       return;
     }
@@ -91,7 +102,7 @@ export class ExampleService extends SquidService {
       item,
       content,
       done: false,
-      date
+      date,
     });
     return;
   }
@@ -105,34 +116,38 @@ export class ExampleService extends SquidService {
     }
     const packingItemData = request.docAfter;
     // avoid requests to the API more than once
-    if (packingItemData.item !== undefined && packingItemData.product_title === undefined) {
+    if (
+      packingItemData.item !== undefined &&
+      packingItemData.product_title === undefined
+    ) {
       await this.searchForItem(packingItemData.id, packingItemData.item);
     }
     return;
   }
 
   private async searchForItem(id: string, item: string): Promise<void> {
-    const response = await this.squid.api()
-    .request<ShoppingItemResponse>('product-search', 
-    'search', 
-    {}, 
-    { 
-      queryParams: {
-        'country': 'us',
-        'language': 'en',
-        'limit': 1,
-        'q': item,
-    }
-  });
-  const data = response.body.data[0];
-  const searchData = {
-    product_title: data.product_title,
-    product_description: data.product_description,
-    product_photo: data.product_photos[0],
-    product_page_url: data.product_page_url,
-  };
-    await this.collection.doc({id}).update(searchData);
-  } 
+    const response = await this.squid.api().request<ShoppingItemResponse>(
+      'product-search',
+      'search',
+      {},
+      {
+        queryParams: {
+          country: 'us',
+          language: 'en',
+          limit: 1,
+          q: item,
+        },
+      },
+    );
+    const data = response.body.data[0];
+    const searchData = {
+      product_title: data.product_title,
+      product_description: data.product_description,
+      product_photo: data.product_photos[0],
+      product_page_url: data.product_page_url,
+    };
+    await this.collection.doc({ id }).update(searchData);
+  }
 
   async getFutureForecast(date: string, zip: number) {
     const result = await this.squid.api().request<ResponseBody>(

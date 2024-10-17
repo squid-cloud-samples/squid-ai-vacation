@@ -1,16 +1,16 @@
 export type PackingItem = {
-    id: string;
-    item: string;
-    imageUrl?: string;
-    content: string;
-    date: Date;
-    done: boolean;
-    // attributes from Google Shopping
-    product_title?: string;
-    product_description?: string;
-    product_page_url?: string;
-    product_photo?: string;
-}
+  id: string;
+  item: string;
+  imageUrl?: string;
+  content: string;
+  date: Date;
+  done: boolean;
+  // attributes from Google Shopping
+  product_title?: string;
+  product_description?: string;
+  product_page_url?: string;
+  product_photo?: string;
+};
 
 export type OneDayForecast = {
   maxtemp_c: number; // ex 30.4;
@@ -32,7 +32,7 @@ export type OneDayForecast = {
     code: number; // ex 1243;
   };
   uv: number; // ex 6;
-}
+};
 
 export type ResponseBody = {
   forecast: {
@@ -96,7 +96,7 @@ export type ResponseBody = {
     localtime_epoch: number;
     localtime: string; // ex '2024-05-13 13:27';
   };
-}
+};
 
 export type ShoppingItem = {
   product_id: string;
@@ -112,7 +112,7 @@ export type ShoppingItem = {
   product_num_reviews: number;
   product_num_offers: string; // ex 10+
   typical_price_range: string[]; // ex [ "$70.00", "$89.00" ]
-}
+};
 
 export type ProductAttributes = {
   Department: string;
@@ -120,7 +120,7 @@ export type ProductAttributes = {
   Material: string;
   Features: string;
   'Closure Style': string;
-}
+};
 
 export type ProductOffer = {
   store_name: string;
@@ -133,4 +133,4 @@ export type ProductOffer = {
   on_sale: boolean;
   original_price: string | null;
   product_condition: string; // ex "NEW"
-}
+};

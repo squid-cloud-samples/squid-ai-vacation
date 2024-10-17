@@ -4,11 +4,13 @@ import ItemList from './components/ItemList';
 import { PackingItem } from './components/types';
 import { useCollection, useQuery, useSquid } from '@squidcloud/react';
 import SelectLocation from './components/SelectLocation';
+import { useState } from 'react';
 
 function App() {
   const squid = useSquid();
   const collection = useCollection<PackingItem>('packing-list');
   const { data } = useQuery(collection.query().dereference());
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const handleToggle = async (id: string, done: boolean) => {
     await collection.doc({ id }).update({
@@ -18,7 +20,6 @@ function App() {
 
   const handleDelete = async (id: string) => {
     await collection.doc({ id }).delete();
-
   };
 
   const handleCreateWithAI = async (
@@ -26,23 +27,36 @@ function App() {
     startDate: Date,
     endDate: Date,
   ) => {
+    setBtnDisabled(true);
     await squid.executeFunction(
       'createItemsWithAI',
       zipcode,
       startDate,
       endDate,
     );
+    setBtnDisabled(false);
   };
 
   return (
-    <div className="background-container">
+    <div>
+      <div className="background-container">
+        <div className="background-container__content">
+          <div className="background-container__content__title">
+            Vacation Planner
+          </div>
+          <div className="background-container__content__desc">
+            Enter your zip code and dates of travel to automatically generate a
+          </div>
+          <div className="background-container__content__desc">
+            list of items based on the predicted weather forecast
+          </div>
+          <SelectLocation
+            btnDisabled={btnDisabled}
+            onCreate={handleCreateWithAI}
+          />
+        </div>
+      </div>
       <div className="content">
-        <h1 style={{ color: 'white' }}>Vacation Planner</h1>
-        <h3 style={{ color: 'white' }}>
-          Enter your zip code and dates of travel to automatically generate a
-          list of items based on the predicted weather forecast
-        </h3>
-        <SelectLocation onCreate={handleCreateWithAI} />
         <ItemList
           items={data}
           onDelete={handleDelete}
