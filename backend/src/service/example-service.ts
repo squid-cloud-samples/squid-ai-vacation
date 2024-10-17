@@ -29,14 +29,14 @@ export class ExampleService extends SquidService {
         const dateWeather = `${year}-${month}-${day}`;
         const result = await this.getFutureForecast(dateWeather, zipcode);
         await this.squid.collection('forecast').doc({date, location: zipcode}).insert(result);
-        this.generatePackingList(date, result);
+        await this.generatePackingList(date, result);
+        return 'done';
     }
   }
 
   private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
-    const chatbot = this.squid.ai().chatbot('packing-planner');
-    const profile = chatbot.profile('planner');
-    const queryResult = await profile.ask(
+    const packingAgent = this.squid.ai().agent('planner');
+    const queryResult = await packingAgent.ask(
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
       {functions: ['createPackingListFromAssistant']}
     );

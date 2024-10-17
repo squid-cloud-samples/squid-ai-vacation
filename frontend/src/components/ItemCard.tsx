@@ -17,16 +17,15 @@ const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
     };
 
   return (
-    <div
-      className={`sq-card item-card ${done ? 'done' : ''}`}
-    >
+    <div className={`item-card ${done ? 'done' : ''}`}>
       <input
-        className='check-icon'
+        className="item-card__check-icon"
         type="checkbox"
         checked={done}
         onChange={() => onToggle(id, !done)}
       />
       {product_photo && (
+        <div className='item-card__photo'>
         <a href={product_page_url} target="_blank" rel="noopener noreferrer">
           <img
             alt={'item image'}
@@ -35,15 +34,21 @@ const ItemCard = ({ packingItem, onDelete, onToggle }: PropTypes) => {
             className="item-card__image"
           />
         </a>
+        </div>
       )}
       <div className="item-card__content">
-        <h4>{item}</h4>
-        <span>{content}</span>
-        <span>{date.toDateString()}</span>
+        <div className='item-card__content__title'>{item}</div>
+        <span className='item-card__content__desc'>{content}</span>
+        <span className='item-card__content_desx'>{date.toDateString()}</span>
       </div>
 
       <div className="item-card__buttons">
-        <button onClick={handleClick} className="sq-btn sq-btn--secondary" style={{width: "120px"}}>Buy Item</button>
+        <button
+          onClick={handleClick}
+          className="sq-btn sq-btn--secondary item-card__buttons__buy"
+        >
+          Buy Item
+        </button>
         <button onClick={() => onDelete(id)} className="trash-icon">
           <img src={TrashIcon} width={20} className="sq-icon sq-icon--gray" />
         </button>
