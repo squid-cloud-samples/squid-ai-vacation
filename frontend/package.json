@@ -13,7 +13,7 @@
   "dependencies": {
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.18",
-    "@squidcloud/react": "^1.0.68",
+    "@squidcloud/react": "^1.0.90",
     "@squidcloud/samples": "^1.0.12",
     "@squidcloud/ui": "^1.0.11",
     "date-fns": "^3.6.0",
@@ -38,6 +38,6 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "sass": "^1.77.1",
     "typescript": "^5.2.2",
-    "vite": "^5.1.6"
+    "vite": "6.3.4"
   }
 }

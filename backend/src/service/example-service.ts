@@ -10,8 +10,9 @@ import { ResponseBody, OneDayForecast, ShoppingItem } from './types';
 import crypto from 'crypto';
 
 type ShoppingItemResponse = {
-  data: ShoppingItem;
+  data: {products: ShoppingItem[] };
 };
+
 
 export class ExampleService extends SquidService {
   collection = this.squid.collection('packing-list');
@@ -44,7 +45,7 @@ export class ExampleService extends SquidService {
 
   private async generatePackingList(date: Date, dayForecast: OneDayForecast) {
     const packingAgent = this.squid.ai().agent('planner');
-    const queryResult = await packingAgent.ask(
+    await packingAgent.ask(
       `Create some packing list items for the following weather forecast: ${JSON.stringify(dayForecast)} for this date ${date}`,
       { functions: ['createPackingListFromAssistant'] },
     );
@@ -139,7 +140,7 @@ export class ExampleService extends SquidService {
         },
       },
     );
-    const data = response.body.data[0];
+    const data = response.body.data.products[0];
     const searchData = {
       product_title: data.product_title,
       product_description: data.product_description,

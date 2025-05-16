@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@squidcloud/backend": "^1.0.282"
+    "@squidcloud/backend": "^1.0.358"
   },
   "devDependencies": {
     "@squidcloud/cli": "^1.0.282",
